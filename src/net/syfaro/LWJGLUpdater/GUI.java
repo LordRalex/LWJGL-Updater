@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -36,12 +37,14 @@ public class GUI extends javax.swing.JFrame {
         label = new javax.swing.JLabel();
         status = new javax.swing.JLabel();
         updateButton = new javax.swing.JButton();
+        progressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         label.setText("Status:");
 
-        status.setText("idle");
+        status.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        status.setText("Idle");
 
         updateButton.setText("Update!");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -50,6 +53,9 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
+        progressBar.setString("Waiting for you");
+        progressBar.setStringPainted(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -57,12 +63,13 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(updateButton)
+                    .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(label)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(status)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -70,30 +77,37 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label)
-                    .addComponent(status))
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(updateButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Main.load();
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        if (updateButton.getText().equalsIgnoreCase("exit")) {
+            System.exit(0);
+        } else {
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Main.load();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-        };
-        thread.start();
+            };
+            thread.start();
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel label;
+    private javax.swing.JProgressBar progressBar;
     private javax.swing.JLabel status;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
@@ -112,5 +126,9 @@ public class GUI extends javax.swing.JFrame {
 
     public void setStatusLabelText(String newText) {
         status.setText(newText);
+    }
+
+    public JProgressBar getProgressBar() {
+        return progressBar;
     }
 }

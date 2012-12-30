@@ -22,17 +22,18 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="updateButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="updateButton" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="label" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="status" min="-2" max="-2" attributes="0"/>
+                      <Component id="status" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="progressBar" alignment="0" pref="267" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -42,11 +43,13 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="label" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="status" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="status" alignment="3" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="updateButton" min="-2" max="-2" attributes="0"/>
+              <Component id="progressBar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="updateButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -59,7 +62,8 @@
     </Component>
     <Component class="javax.swing.JLabel" name="status">
       <Properties>
-        <Property name="text" type="java.lang.String" value="idle"/>
+        <Property name="horizontalAlignment" type="int" value="2"/>
+        <Property name="text" type="java.lang.String" value="Idle"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="updateButton">
@@ -69,6 +73,12 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="progressBar">
+      <Properties>
+        <Property name="string" type="java.lang.String" value="Waiting for you"/>
+        <Property name="stringPainted" type="boolean" value="true"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

@@ -7,6 +7,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 public class Get {
+
     public static boolean Download(String url, String savePath) {
         try {
             URL website = new URL(url);
@@ -15,7 +16,7 @@ public class Get {
             fox.getChannel().transferFrom(rbc, 0, 1 << 24);
             fox.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace(System.out);
             return false;
         }
         return true;

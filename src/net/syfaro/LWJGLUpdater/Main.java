@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 public class Main {
 
@@ -20,7 +22,10 @@ public class Main {
 
     public static void load() throws FileNotFoundException {
         gui.getButton().setEnabled(false);
-        gui.getStatusLabel().setText("Loading");
+        gui.getStatusLabel().setText("Downloading");
+        gui.getProgressBar().setString("Preparing the download");
+
+        updateGui(gui.getButton(), gui.getStatusLabel(), gui.getProgressBar());
 
         File workDir = OS.getWorkingDirectory();
         workDir.mkdirs();
@@ -38,20 +43,31 @@ public class Main {
             Download newDownload = new Download(name, link, savePath);
             files.add(newDownload);
         }
+
         String[] jarsList = getJars();
         for (String jar : jarsList) {
-            String link = getNativesDownload(jar);
+            String link = getJarsDownload(jar);
             String name = jar;
             String savePath = new File(binFolder, name).getPath();
             Download newDownload = new Download(name, link, savePath);
             files.add(newDownload);
         }
 
-        for (Download file : files) {
+        for (int i = 0; i < files.size(); i++) {
+            Download file = files.get((int) i);
+            gui.getProgressBar().setString("Downloading " + file.name);
+            updateGui(gui.getProgressBar());
             Get.Download(file.url, file.savePath);
+            int statusBarValue = (int) (((double) i) / (double) (files.size()) * 100);
+            gui.getProgressBar().setValue(statusBarValue);
         }
 
         gui.getStatusLabel().setText("Done");
+        gui.getProgressBar().setValue(100);
+        gui.getProgressBar().setString("Done downloading");
+        gui.getButton().setText("Exit");
+        gui.getButton().setEnabled(true);
+        updateGui(gui.getButton(), gui.getStatusLabel(), gui.getProgressBar());
     }
 
     public static String[] getJars() {
@@ -96,14 +112,8 @@ public class Main {
         return natives.toArray(new String[0]);
     }
 
-    public static ArrayList<String> getJarsDownload(String[] jars) {
-        ArrayList jar = new ArrayList();
-
-        for (String s : jars) {
-            jar.add("http://vps.syfaro.net/lwjgl/jar/" + s);
-        }
-
-        return jar;
+    public static String getJarsDownload(String jars) {
+        return "http://vps.syfaro.net/lwjgl/jar/" + jars;
     }
 
     public static String getNativesDownload(String natives) {
@@ -120,6 +130,12 @@ public class Main {
             name = aName;
             url = aUrl;
             savePath = save;
+        }
+    }
+
+    private static void updateGui(JComponent... objects) {
+        for (JComponent component : objects) {
+            component.update(component.getGraphics());
         }
     }
 }
